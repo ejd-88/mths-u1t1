@@ -6,7 +6,11 @@
 <title>Mathematical Methods · Unit 1 Quiz</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d0f14;--surface:#161921;--surface2:#1e2330;--border:#2a3045;--accent:#4f8ef7;--accent2:#f7c94f;--green:#4fca7a;--red:#f7614f;--text:#e8eaf0;--muted:#7a839a;--white:#ffffff;--admin:#c084fc;}
+:root{
+  --bg:#0d0f14;--surface:#161921;--surface2:#1e2330;--border:#2a3045;
+  --accent:#4f8ef7;--accent2:#f7c94f;--green:#4fca7a;--red:#f7614f;
+  --text:#e8eaf0;--muted:#7a839a;--white:#ffffff;--admin:#c084fc;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 16px 60px;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,142,247,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
@@ -91,7 +95,7 @@ h1 em{font-style:italic;color:var(--accent2);}
 .dot.current{background:var(--accent);}
 .progress-label{position:relative;z-index:1;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;max-width:760px;width:100%;margin-bottom:18px;}
 
-/* ADMIN UNLOCK */
+/* ── ADMIN UNLOCK ── */
 #adminUnlock{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;padding:20px;}
 #adminUnlock.open{display:flex;}
 .unlock-box{background:var(--surface);border:1px solid rgba(192,132,252,0.4);border-radius:20px;padding:36px;width:100%;max-width:360px;text-align:center;animation:fadeUp 0.3s ease both;}
@@ -106,64 +110,65 @@ h1 em{font-style:italic;color:var(--accent2);}
 .unlock-cancel{background:none;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.1em;padding:8px;}
 .unlock-cancel:hover{color:var(--text);}
 
-/* ADMIN PANEL */
+/* ── ADMIN PANEL ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:100;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--surface);border:1px solid rgba(192,132,252,0.3);border-radius:24px;width:100%;max-width:640px;animation:fadeUp 0.3s ease both;}
-.modal-header{padding:28px 28px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
-.modal-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--admin);}
+.modal{background:var(--surface);border:1px solid rgba(192,132,252,0.3);border-radius:24px;width:100%;max-width:640px;animation:fadeUp 0.3s ease both;margin-bottom:40px;}
+.modal-header{padding:28px 28px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.modal-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--admin);}
+.modal-subtitle{padding:0 28px 20px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border);}
 .modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:color 0.2s;line-height:1;}
 .modal-close:hover{color:var(--text);}
-.modal-body{padding:0 28px 28px;}
-.admin-section{margin-bottom:28px;}
-.admin-section-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--admin);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(192,132,252,0.2);}
+.modal-body{padding:24px 28px 28px;}
+.admin-section{margin-bottom:32px;}
+.admin-section:last-child{margin-bottom:0;}
+.admin-section-title{font-size:16px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.admin-section-sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
 
-.topic-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
-.topic-toggle-row:last-child{border-bottom:none;}
-.topic-toggle-label{font-size:14px;color:var(--text);}
-.topic-toggle-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:2px;}
+/* Topic toggles */
+.topic-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:var(--surface2);margin-bottom:8px;gap:12px;}
+.topic-toggle-left{flex:1;}
+.topic-toggle-name{font-size:15px;color:var(--text);font-weight:500;}
+.topic-toggle-desc{font-size:12px;color:var(--muted);margin-top:2px;}
 .toggle-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle-switch{position:relative;width:48px;height:26px;flex-shrink:0;}
 .toggle-switch input{opacity:0;width:0;height:0;}
 .toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:0.25s;}
-.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:var(--muted);border-radius:50%;transition:0.25s;}
-.toggle-switch input:checked+.toggle-slider{background:rgba(79,202,122,0.3);}
-.toggle-switch input:checked+.toggle-slider::before{transform:translateX(20px);background:var(--green);}
-.toggle-state{font-family:'DM Mono',monospace;font-size:11px;width:30px;color:var(--muted);text-align:right;}
-.toggle-state.on{color:var(--green);}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:var(--muted);border-radius:50%;transition:0.25s;}
+.toggle-switch input:checked+.toggle-slider{background:rgba(79,202,122,0.35);}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(22px);background:var(--green);}
+.toggle-label{font-family:'DM Mono',monospace;font-size:12px;width:32px;text-align:right;color:var(--muted);}
+.toggle-label.on{color:var(--green);}
 
-.admin-save-btn{background:rgba(192,132,252,0.12);border:1px solid rgba(192,132,252,0.35);color:var(--admin);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:11px 20px;border-radius:10px;cursor:pointer;transition:all 0.2s;width:100%;margin-top:14px;}
-.admin-save-btn:hover{background:rgba(192,132,252,0.22);}
-.saved-ok{color:var(--green);font-family:'DM Mono',monospace;font-size:12px;margin-top:10px;display:none;text-align:center;}
+.save-topics-btn{width:100%;padding:14px;border-radius:12px;border:none;background:var(--admin);color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;margin-top:4px;}
+.save-topics-btn:hover{background:#d0a0ff;}
+.save-topics-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.save-feedback{text-align:center;font-size:14px;margin-top:10px;min-height:20px;color:var(--green);display:none;}
+.save-feedback.error{color:var(--red);}
 
-/* CONFIG EXPORT */
-.config-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:14px;}
-.config-box pre{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent2);white-space:pre-wrap;word-break:break-all;line-height:1.6;margin-bottom:12px;}
-.copy-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all 0.2s;width:100%;}
-.copy-btn:hover{border-color:var(--accent);color:var(--accent);}
-.config-instructions{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
-.config-instructions strong{color:var(--text);}
-
-/* RESULTS */
-.results-grid{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+/* Results */
+.results-grid{display:flex;flex-direction:column;gap:10px;}
 .result-card{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:16px;animation:fadeUp 0.3s ease both;}
-.result-rank{font-family:'DM Serif Display',serif;font-size:22px;color:var(--muted);min-width:32px;text-align:center;}
-.result-rank.gold{color:#f7c94f;}
-.result-rank.silver{color:#b0b8cc;}
-.result-rank.bronze{color:#cd7f32;}
-.result-info{flex:1;}
-.result-name{font-size:15px;color:var(--text);font-weight:500;margin-bottom:3px;}
-.result-meta{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
-.result-score-wrap{text-align:right;}
-.result-pct{font-family:'DM Serif Display',serif;font-size:26px;color:var(--accent2);line-height:1;}
-.result-fraction{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:2px;}
-.result-bar-wrap{margin-top:6px;background:var(--border);border-radius:100px;height:4px;width:100%;}
-.result-bar{height:4px;border-radius:100px;background:var(--accent2);transition:width 0.6s ease;}
-.results-empty{text-align:center;padding:32px;color:var(--muted);font-size:14px;}
-.refresh-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:14px;}
-.refresh-btn:hover{border-color:var(--accent);color:var(--accent);}
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
-.results-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.result-rank{font-size:22px;min-width:36px;text-align:center;flex-shrink:0;}
+.result-info{flex:1;min-width:0;}
+.result-name{font-size:15px;color:var(--white);font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.result-meta{font-size:12px;color:var(--muted);}
+.result-bar-wrap{margin-top:8px;background:var(--border);border-radius:100px;height:5px;}
+.result-bar{height:5px;border-radius:100px;transition:width 0.8s ease;}
+.result-score-wrap{text-align:right;flex-shrink:0;}
+.result-pct{font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent2);line-height:1;}
+.result-fraction{font-size:12px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace;}
+.results-empty{text-align:center;padding:32px;color:var(--muted);font-size:14px;background:var(--surface2);border-radius:14px;}
+.load-results-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s;margin-bottom:14px;}
+.load-results-btn:hover{border-color:var(--accent);color:var(--accent);}
+.results-stats{display:flex;gap:10px;margin-bottom:14px;}
+.stat-pill{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stat-value{font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);}
+.stat-label{font-size:11px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;}
+
+/* Loading spinner */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--admin);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
@@ -172,11 +177,11 @@ h1 em{font-style:italic;color:var(--accent2);}
 <div id="adminUnlock">
   <div class="unlock-box">
     <div class="unlock-icon">🔒</div>
-    <div class="unlock-title">Admin Access</div>
-    <div class="unlock-sub">Enter your admin password</div>
+    <div class="unlock-title">Teacher Login</div>
+    <div class="unlock-sub">Enter your password to access the teacher panel</div>
     <input type="password" id="unlockInput" class="unlock-input" placeholder="••••••••" maxlength="32">
     <div class="unlock-error" id="unlockError"></div>
-    <button class="unlock-btn" id="unlockSubmit">Unlock Panel</button>
+    <button class="unlock-btn" id="unlockSubmit">Log In</button>
     <button class="unlock-cancel" id="unlockCancel">Cancel</button>
   </div>
 </div>
@@ -185,66 +190,99 @@ h1 em{font-style:italic;color:var(--accent2);}
 <div class="modal-overlay" id="adminModal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title">Admin Panel</div>
+      <div class="modal-title">Teacher Panel</div>
       <button class="modal-close" id="adminClose">✕</button>
     </div>
+    <div class="modal-subtitle">Changes you make here update instantly for every student on every device.</div>
     <div class="modal-body">
 
-      <!-- Topic toggles -->
+      <!-- Topic availability -->
       <div class="admin-section">
-        <div class="admin-section-title">Topic Availability</div>
+        <div class="admin-section-title">Which topics are available to students?</div>
+        <div class="admin-section-sub">Turn a topic off to hide it from students. Turn it on to make it available.</div>
+
         <div class="topic-toggle-row">
-          <div><div class="topic-toggle-label">Topic 1 — Surds &amp; Quadratics</div><div class="topic-toggle-sub">Not assessed in FIA2</div></div>
-          <div class="toggle-wrap"><span class="toggle-state" id="t1state">OFF</span><label class="toggle-switch"><input type="checkbox" id="toggle1"><span class="toggle-slider"></span></label></div>
-        </div>
-        <div class="topic-toggle-row">
-          <div><div class="topic-toggle-label">Topic 2 — Binomials &amp; Cubics</div><div class="topic-toggle-sub">Assessed in FIA2</div></div>
-          <div class="toggle-wrap"><span class="toggle-state on" id="t2state">ON</span><label class="toggle-switch"><input type="checkbox" id="toggle2" checked><span class="toggle-slider"></span></label></div>
-        </div>
-        <div class="topic-toggle-row">
-          <div><div class="topic-toggle-label">Topic 3 — Functions &amp; Relations</div><div class="topic-toggle-sub">Assessed in FIA2</div></div>
-          <div class="toggle-wrap"><span class="toggle-state on" id="t3state">ON</span><label class="toggle-switch"><input type="checkbox" id="toggle3" checked><span class="toggle-slider"></span></label></div>
-        </div>
-        <div class="topic-toggle-row">
-          <div><div class="topic-toggle-label">Topic 4 — Trigonometry</div><div class="topic-toggle-sub">Assessed in FIA2</div></div>
-          <div class="toggle-wrap"><span class="toggle-state on" id="t4state">ON</span><label class="toggle-switch"><input type="checkbox" id="toggle4" checked><span class="toggle-slider"></span></label></div>
-        </div>
-        <div class="topic-toggle-row">
-          <div><div class="topic-toggle-label">Topic 5 — Probability</div><div class="topic-toggle-sub">Not assessed in FIA2</div></div>
-          <div class="toggle-wrap"><span class="toggle-state" id="t5state">OFF</span><label class="toggle-switch"><input type="checkbox" id="toggle5"><span class="toggle-slider"></span></label></div>
+          <div class="topic-toggle-left">
+            <div class="topic-toggle-name">Topic 1 — Surds &amp; Quadratics</div>
+            <div class="topic-toggle-desc">Not assessed in FIA2</div>
+          </div>
+          <div class="toggle-wrap">
+            <span class="toggle-label" id="t1label">Off</span>
+            <label class="toggle-switch"><input type="checkbox" id="toggle1"><span class="toggle-slider"></span></label>
+          </div>
         </div>
 
-        <button class="admin-save-btn" id="saveTopics">Save &amp; Generate Config</button>
-        <div class="saved-ok" id="topicSavedOk">Settings saved — see config below</div>
-
-        <div class="config-box" id="configBox" style="display:none;">
-          <div class="config-instructions">Copy this, go to your GitHub repo, open <strong>config.json</strong>, click the pencil icon, replace everything with this, then click <strong>Commit changes</strong>. Settings will update on every device within a minute.</div>
-          <pre id="configPreview"></pre>
-          <button class="copy-btn" id="copyConfig">Copy to Clipboard</button>
-          <div class="saved-ok" id="copyOk" style="margin-top:8px;">Copied!</div>
+        <div class="topic-toggle-row">
+          <div class="topic-toggle-left">
+            <div class="topic-toggle-name">Topic 2 — Binomials &amp; Cubics</div>
+            <div class="topic-toggle-desc">Assessed in FIA2</div>
+          </div>
+          <div class="toggle-wrap">
+            <span class="toggle-label on" id="t2label">On</span>
+            <label class="toggle-switch"><input type="checkbox" id="toggle2" checked><span class="toggle-slider"></span></label>
+          </div>
         </div>
+
+        <div class="topic-toggle-row">
+          <div class="topic-toggle-left">
+            <div class="topic-toggle-name">Topic 3 — Functions &amp; Relations</div>
+            <div class="topic-toggle-desc">Assessed in FIA2</div>
+          </div>
+          <div class="toggle-wrap">
+            <span class="toggle-label on" id="t3label">On</span>
+            <label class="toggle-switch"><input type="checkbox" id="toggle3" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <div class="topic-toggle-row">
+          <div class="topic-toggle-left">
+            <div class="topic-toggle-name">Topic 4 — Trigonometry</div>
+            <div class="topic-toggle-desc">Assessed in FIA2</div>
+          </div>
+          <div class="toggle-wrap">
+            <span class="toggle-label on" id="t4label">On</span>
+            <label class="toggle-switch"><input type="checkbox" id="toggle4" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <div class="topic-toggle-row">
+          <div class="topic-toggle-left">
+            <div class="topic-toggle-name">Topic 5 — Probability</div>
+            <div class="topic-toggle-desc">Not assessed in FIA2</div>
+          </div>
+          <div class="toggle-wrap">
+            <span class="toggle-label" id="t5label">Off</span>
+            <label class="toggle-switch"><input type="checkbox" id="toggle5"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <button class="save-topics-btn" id="saveTopicsBtn">Save Changes</button>
+        <div class="save-feedback" id="saveFeedback"></div>
       </div>
 
-      <!-- Results -->
+      <!-- Student results -->
       <div class="admin-section">
         <div class="admin-section-title">Student Results</div>
-        <div class="results-header">
-          <button class="refresh-btn" id="refreshResults">Load Latest Results</button>
-          <span class="results-count" id="resultsCount"></span>
+        <div class="admin-section-sub">See how your students are going. Most recent attempts shown first.</div>
+        <button class="load-results-btn" id="loadResultsBtn">Show Student Results</button>
+        <div id="resultsStats" style="display:none;" class="results-stats">
+          <div class="stat-pill"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Attempts</div></div>
+          <div class="stat-pill"><div class="stat-value" id="statAvg">0%</div><div class="stat-label">Class Average</div></div>
+          <div class="stat-pill"><div class="stat-value" id="statTop">0%</div><div class="stat-label">Top Score</div></div>
         </div>
-        <div id="resultsContainer"><div class="results-empty">Click "Load Latest Results" to see student submissions.</div></div>
+        <div id="resultsContainer"></div>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- MAIN PAGE -->
+<!-- MAIN QUIZ PAGE -->
 <header>
   <div class="school-tag">St Patrick's College · Shorncliffe</div>
   <h1>Mathematical Methods<br><em>Unit 1 Quiz</em></h1>
-  <p class="subtitle" id="subtitleEl">FIA2 Revision</p>
-  <div class="admin-trigger" id="adminTrigger">Admin</div>
+  <p class="subtitle" id="subtitleEl">Loading…</p>
+  <div class="admin-trigger" id="adminTrigger">Teacher Login</div>
 </header>
 
 <div class="name-row">
@@ -283,14 +321,16 @@ h1 em{font-style:italic;color:var(--accent2);}
 </div>
 
 <script>
+// ── CONFIG — paste your Apps Script URL here ──
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxZ48lFrM83ZEHUCd2BmYKm9K_H-UnGRkm__8jxgTlf7c_d6gumwRbsUGWYG6sibYm8/exec';
 const ADMIN_PASSWORD = 'stpats2025';
 
 const TOPIC_INFO = {
-  1:{name:'T1: Surds & Quadratics'},
-  2:{name:'T2: Binomials & Cubics'},
-  3:{name:'T3: Functions & Relations'},
-  4:{name:'T4: Trigonometry'},
-  5:{name:'T5: Probability'}
+  1:{name:'T1: Surds & Quadratics', full:'Surds & Quadratics'},
+  2:{name:'T2: Binomials & Cubics', full:'Binomials & Cubics'},
+  3:{name:'T3: Functions & Relations', full:'Functions & Relations'},
+  4:{name:'T4: Trigonometry', full:'Trigonometry'},
+  5:{name:'T5: Probability', full:'Probability'}
 };
 
 const ALL_QUESTIONS = [
@@ -327,20 +367,49 @@ const ALL_QUESTIONS = [
 
 // ── State ──
 let enabledTopics = [2,3,4];
-let sheetUrl = '';
 let questions=[], currentIdx=0, score=0, answered=[], selectedTopic='all';
 let quizStartTime=null;
 const QS_PER_ROUND=10;
 
-// ── Load config.json from GitHub repo ──
-async function loadConfig(){
+// ── Load settings from Google Sheet ──
+async function loadSettings(){
   try{
-    const res = await fetch('config.json?nocache='+Date.now());
-    if(!res.ok) return;
-    const cfg = await res.json();
-    if(cfg.enabledTopics) enabledTopics = cfg.enabledTopics;
-    if(cfg.sheetUrl) sheetUrl = cfg.sheetUrl;
+    const res = await fetch(SHEET_URL+'?type=settings&nocache='+Date.now());
+    const data = await res.json();
+    if(data.enabledTopics && data.enabledTopics.length) enabledTopics = data.enabledTopics;
   }catch(e){}
+  renderFilterBar();
+  initQuiz();
+}
+
+// ── Save settings to Google Sheet ──
+async function saveSettings(topics){
+  const btn = document.getElementById('saveTopicsBtn');
+  const fb = document.getElementById('saveFeedback');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Saving…';
+  fb.style.display = 'none';
+  try{
+    await fetch(SHEET_URL, {
+      method:'POST',
+      mode:'no-cors',
+      body: JSON.stringify({type:'settings', enabledTopics:topics}),
+      headers:{'Content-Type':'application/json'}
+    });
+    enabledTopics = topics;
+    renderFilterBar();
+    initQuiz();
+    fb.textContent = '✓ Saved! Students will see these changes immediately.';
+    fb.className = 'save-feedback';
+    fb.style.display = 'block';
+  }catch(e){
+    fb.textContent = 'Something went wrong. Please try again.';
+    fb.className = 'save-feedback error';
+    fb.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Save Changes';
+  setTimeout(()=>fb.style.display='none', 4000);
 }
 
 // ── Helpers ──
@@ -356,24 +425,23 @@ function shuffleOptions(q){
 
 // ── Filter bar ──
 function renderFilterBar(){
-  const bar=document.getElementById('filterBar');
-  bar.innerHTML='';
-  const allBtn=document.createElement('button');
-  allBtn.className='filter-btn'+(selectedTopic==='all'?' active':'');
-  allBtn.dataset.topic='all';
-  allBtn.textContent='All Assessed Topics';
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-btn'+(selectedTopic==='all'?' active':'');
+  allBtn.dataset.topic = 'all';
+  allBtn.textContent = 'All Available Topics';
   bar.appendChild(allBtn);
   [1,2,3,4,5].forEach(n=>{
-    const btn=document.createElement('button');
-    const enabled=enabledTopics.includes(n);
-    btn.className='filter-btn'+(!enabled?' disabled-topic':'')+(String(selectedTopic)===String(n)?' active':'');
-    btn.dataset.topic=n;
-    btn.textContent=TOPIC_INFO[n].name;
+    const btn = document.createElement('button');
+    const on = enabledTopics.includes(n);
+    btn.className = 'filter-btn'+(!on?' disabled-topic':'')+(String(selectedTopic)===String(n)?' active':'');
+    btn.dataset.topic = n;
+    btn.textContent = TOPIC_INFO[n].name;
     bar.appendChild(btn);
   });
-  // update subtitle
-  const names = enabledTopics.map(n=>['','Surds','Binomials & Cubics','Functions','Trigonometry','Probability'][n]);
-  document.getElementById('subtitleEl').textContent='FIA2 Revision — '+names.join(', ');
+  const names = enabledTopics.map(n=>TOPIC_INFO[n].full);
+  document.getElementById('subtitleEl').textContent = names.length ? 'Revision — '+names.join(', ') : 'No topics currently available';
 }
 
 // ── Quiz ──
@@ -383,14 +451,14 @@ function getPool(){
 }
 
 function initQuiz(){
-  const pool=getPool();
+  const pool = getPool();
   if(!pool.length){
-    document.getElementById('quiz-area').innerHTML='<div class="q-card" style="text-align:center;color:var(--muted);font-family:DM Mono,monospace;font-size:13px;">No questions available for this topic.</div>';
+    document.getElementById('quiz-area').innerHTML='<div class="q-card" style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">No questions are available for this topic right now.</div>';
     return;
   }
-  questions=shuffle(pool).slice(0,QS_PER_ROUND).map(shuffleOptions);
+  questions = shuffle(pool).slice(0,QS_PER_ROUND).map(shuffleOptions);
   currentIdx=0; score=0; answered=new Array(questions.length).fill(null);
-  quizStartTime=Date.now();
+  quizStartTime = Date.now();
   document.getElementById('summary').style.display='none';
   document.getElementById('quiz-area').style.display='block';
   document.querySelector('.nav-row').style.display='flex';
@@ -464,9 +532,8 @@ function showSummary(){
   const total=questions.length;
   const pct=Math.round(correct/total*100);
   const msgs=[[90,'Outstanding! Brilliant work. 🎉'],[70,'Great effort! Keep pushing. 💪'],[50,'Good start — revise and retry. 📖'],[0,'Keep practising — you\'ve got this! 🔄']];
-  const msg=msgs.find(([m])=>pct>=m)[1];
   document.getElementById('finalScore').textContent=pct+'%';
-  document.getElementById('summaryMsg').textContent=msg;
+  document.getElementById('summaryMsg').textContent=msgs.find(([m])=>pct>=m)[1];
   document.getElementById('bdCorrect').textContent='✓ '+correct+' correct';
   document.getElementById('bdIncorrect').textContent='✗ '+(total-correct)+' incorrect';
   document.getElementById('summary').style.display='block';
@@ -474,52 +541,57 @@ function showSummary(){
 }
 
 function submitResult(correct,total,pct){
-  if(!sheetUrl){document.getElementById('submitStatus').textContent='';return;}
   const name=document.getElementById('studentName').value.trim()||'Anonymous';
-  const topicLabel=selectedTopic==='all'?'All Assessed':TOPIC_INFO[selectedTopic].name;
+  const topicLabel=selectedTopic==='all'?'All Topics':TOPIC_INFO[selectedTopic].full;
   const elapsed=quizStartTime?Math.round((Date.now()-quizStartTime)/1000):0;
   const timeTaken=Math.floor(elapsed/60)+'m '+elapsed%60+'s';
   document.getElementById('submitStatus').textContent='Saving your result…';
-  fetch(sheetUrl,{
+  fetch(SHEET_URL,{
     method:'POST',
     mode:'no-cors',
-    body:JSON.stringify({name,score:correct,total,percent:pct,topic:topicLabel,timeTaken}),
+    body:JSON.stringify({type:'result',name,score:correct,total,percent:pct,topic:topicLabel,timeTaken}),
     headers:{'Content-Type':'application/json'}
   })
-  .then(()=>{document.getElementById('submitStatus').textContent='✓ Result saved';})
-  .catch(()=>{document.getElementById('submitStatus').textContent='Could not save result';});
+  .then(()=>document.getElementById('submitStatus').textContent='✓ Result saved')
+  .catch(()=>document.getElementById('submitStatus').textContent='Could not save result');
 }
 
-// ── Admin: results display ──
+// ── Load results ──
 function loadResults(){
-  if(!sheetUrl){
-    document.getElementById('resultsContainer').innerHTML='<div class="results-empty">No Google Sheet connected yet. Ask your teacher to set this up.</div>';
-    return;
-  }
-  document.getElementById('resultsContainer').innerHTML='<div class="results-empty">Loading…</div>';
-  document.getElementById('resultsCount').textContent='';
-  fetch(sheetUrl+'?nocache='+Date.now())
+  const btn=document.getElementById('loadResultsBtn');
+  btn.innerHTML='<span class="spinner"></span> Loading…';
+  btn.disabled=true;
+  fetch(SHEET_URL+'?type=results&nocache='+Date.now())
   .then(r=>r.json())
   .then(rows=>{
+    btn.textContent='Refresh Results';
+    btn.disabled=false;
     if(!rows||!rows.length){
-      document.getElementById('resultsContainer').innerHTML='<div class="results-empty">No results submitted yet.</div>';
+      document.getElementById('resultsContainer').innerHTML='<div class="results-empty">No results yet. Results will appear here once students complete the quiz.</div>';
+      document.getElementById('resultsStats').style.display='none';
       return;
     }
     const sorted=[...rows].sort((a,b)=>parseFloat(b.Percent||0)-parseFloat(a.Percent||0));
-    document.getElementById('resultsCount').textContent=sorted.length+' submission'+(sorted.length===1?'':'s');
-    const rankLabels=['🥇','🥈','🥉'];
-    const rankClasses=['gold','silver','bronze'];
+    const avg=Math.round(sorted.reduce((s,r)=>s+parseFloat(r.Percent||0),0)/sorted.length);
+    const top=Math.round(parseFloat(sorted[0].Percent||0));
+    document.getElementById('statTotal').textContent=sorted.length;
+    document.getElementById('statAvg').textContent=avg+'%';
+    document.getElementById('statTop').textContent=top+'%';
+    document.getElementById('resultsStats').style.display='flex';
+    const medals=['🥇','🥈','🥉'];
+    const barColours=['#f7c94f','#b0b8cc','#cd7f32'];
     let html='<div class="results-grid">';
     sorted.forEach((r,i)=>{
       const pct=parseFloat(r.Percent)||0;
-      const rankDisplay=i<3?'<span class="result-rank '+rankClasses[i]+'">'+rankLabels[i]+'</span>':'<span class="result-rank">'+(i+1)+'</span>';
+      const rank=i<3?medals[i]:'#'+(i+1);
+      const barColor=i<3?barColours[i]:'var(--accent)';
       html+=
         '<div class="result-card">'+
-        rankDisplay+
+        '<div class="result-rank">'+rank+'</div>'+
         '<div class="result-info">'+
           '<div class="result-name">'+(r.Name||'Anonymous')+'</div>'+
           '<div class="result-meta">'+(r.Topic||'—')+' &nbsp;·&nbsp; '+(r['Time Taken']||'—')+' &nbsp;·&nbsp; '+(r.Timestamp||'—')+'</div>'+
-          '<div class="result-bar-wrap"><div class="result-bar" style="width:'+pct+'%"></div></div>'+
+          '<div class="result-bar-wrap"><div class="result-bar" style="width:'+pct+'%;background:'+barColor+'"></div></div>'+
         '</div>'+
         '<div class="result-score-wrap">'+
           '<div class="result-pct">'+Math.round(pct)+'%</div>'+
@@ -531,41 +603,11 @@ function loadResults(){
     document.getElementById('resultsContainer').innerHTML=html;
   })
   .catch(()=>{
-    document.getElementById('resultsContainer').innerHTML='<div class="results-empty">Could not load results. Make sure the Sheet URL is saved in config.json.</div>';
+    btn.textContent='Show Student Results';
+    btn.disabled=false;
+    document.getElementById('resultsContainer').innerHTML='<div class="results-empty">Could not load results. Check your internet connection and try again.</div>';
   });
 }
-
-// ── Admin: topic toggles & config export ──
-function updateToggleLabels(){
-  [1,2,3,4,5].forEach(n=>{
-    const cb=document.getElementById('toggle'+n);
-    const st=document.getElementById('t'+n+'state');
-    if(cb&&st){st.textContent=cb.checked?'ON':'OFF';st.className='toggle-state'+(cb.checked?' on':'');}
-  });
-}
-
-function generateConfig(){
-  const topics=[];
-  [1,2,3,4,5].forEach(n=>{const cb=document.getElementById('toggle'+n);if(cb&&cb.checked)topics.push(n);});
-  return JSON.stringify({enabledTopics:topics,sheetUrl:sheetUrl},null,2);
-}
-
-document.getElementById('saveTopics').addEventListener('click',()=>{
-  updateToggleLabels();
-  const json=generateConfig();
-  document.getElementById('configPreview').textContent=json;
-  document.getElementById('configBox').style.display='block';
-  document.getElementById('topicSavedOk').style.display='block';
-  setTimeout(()=>document.getElementById('topicSavedOk').style.display='none',3000);
-});
-
-document.getElementById('copyConfig').addEventListener('click',()=>{
-  navigator.clipboard.writeText(document.getElementById('configPreview').textContent).then(()=>{
-    const ok=document.getElementById('copyOk');
-    ok.style.display='block';
-    setTimeout(()=>ok.style.display='none',2000);
-  });
-});
 
 // ── Admin unlock ──
 document.getElementById('adminTrigger').addEventListener('click',()=>{
@@ -574,17 +616,14 @@ document.getElementById('adminTrigger').addEventListener('click',()=>{
   document.getElementById('adminUnlock').classList.add('open');
   setTimeout(()=>document.getElementById('unlockInput').focus(),100);
 });
-
 document.getElementById('unlockSubmit').addEventListener('click',()=>{
   if(document.getElementById('unlockInput').value===ADMIN_PASSWORD){
     document.getElementById('adminUnlock').classList.remove('open');
-    // Sync toggles to current enabledTopics
     [1,2,3,4,5].forEach(n=>{
       const cb=document.getElementById('toggle'+n);
-      if(cb){cb.checked=enabledTopics.includes(n);}
+      if(cb) cb.checked=enabledTopics.includes(n);
+      syncToggleLabel(n);
     });
-    updateToggleLabels();
-    document.getElementById('configBox').style.display='none';
     document.getElementById('adminModal').classList.add('open');
   }else{
     document.getElementById('unlockError').textContent='Incorrect password. Try again.';
@@ -592,19 +631,30 @@ document.getElementById('unlockSubmit').addEventListener('click',()=>{
     document.getElementById('unlockInput').focus();
   }
 });
-
 document.getElementById('unlockInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('unlockSubmit').click();});
 document.getElementById('unlockCancel').addEventListener('click',()=>document.getElementById('adminUnlock').classList.remove('open'));
 document.getElementById('adminClose').addEventListener('click',()=>document.getElementById('adminModal').classList.remove('open'));
 document.getElementById('adminModal').addEventListener('click',e=>{if(e.target===document.getElementById('adminModal'))document.getElementById('adminModal').classList.remove('open');});
-document.getElementById('refreshResults').addEventListener('click',loadResults);
 
+function syncToggleLabel(n){
+  const cb=document.getElementById('toggle'+n);
+  const lbl=document.getElementById('t'+n+'label');
+  if(!cb||!lbl) return;
+  lbl.textContent=cb.checked?'On':'Off';
+  lbl.className='toggle-label'+(cb.checked?' on':'');
+}
 [1,2,3,4,5].forEach(n=>{
   const cb=document.getElementById('toggle'+n);
-  if(cb)cb.addEventListener('change',updateToggleLabels);
+  if(cb) cb.addEventListener('change',()=>syncToggleLabel(n));
 });
 
-// ── Nav events ──
+document.getElementById('saveTopicsBtn').addEventListener('click',()=>{
+  const topics=[];
+  [1,2,3,4,5].forEach(n=>{const cb=document.getElementById('toggle'+n);if(cb&&cb.checked)topics.push(n);});
+  saveSettings(topics);
+});
+
+document.getElementById('loadResultsBtn').addEventListener('click',loadResults);
 document.getElementById('nextBtn').addEventListener('click',()=>{currentIdx++;if(currentIdx>=questions.length)showSummary();else renderQuestion();});
 document.getElementById('shuffleBtn').addEventListener('click',initQuiz);
 document.getElementById('restartBtn').addEventListener('click',()=>{document.getElementById('progressLabel').style.display='block';initQuiz();});
@@ -617,10 +667,7 @@ document.getElementById('filterBar').addEventListener('click',e=>{
 });
 
 // ── Boot ──
-loadConfig().then(()=>{
-  renderFilterBar();
-  initQuiz();
-});
+loadSettings();
 </script>
 </body>
 </html>
