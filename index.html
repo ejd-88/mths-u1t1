@@ -29,6 +29,8 @@ h1 em{font-style:italic;color:var(--accent2);}
 .name-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;}
 .name-input:focus{border-color:var(--accent);}
 .name-input::placeholder{color:var(--muted);}
+.name-input.error{border-color:var(--red);}
+.name-error{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);display:none;position:relative;z-index:1;width:100%;max-width:760px;margin-top:-12px;margin-bottom:8px;}
 
 .filter-bar{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px;max-width:760px;width:100%;}
 .filter-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;padding:7px 16px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
@@ -158,6 +160,17 @@ h1 em{font-style:italic;color:var(--accent2);}
 .result-score-wrap{text-align:right;flex-shrink:0;}
 .result-pct{font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent2);line-height:1;}
 .result-fraction{font-size:12px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace;}
+.delete-btn{background:none;border:none;color:rgba(247,97,79,0.4);cursor:pointer;font-size:16px;padding:4px 6px;border-radius:6px;transition:all 0.2s;flex-shrink:0;line-height:1;}
+.delete-btn:hover{color:var(--red);background:rgba(247,97,79,0.1);}
+.reset-btn{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(247,97,79,0.3);background:rgba(247,97,79,0.08);color:var(--red);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;margin-top:12px;}
+.reset-btn:hover{background:rgba(247,97,79,0.15);border-color:var(--red);}
+.confirm-box{background:var(--surface2);border:1px solid rgba(247,97,79,0.4);border-radius:14px;padding:20px;margin-top:12px;display:none;text-align:center;}
+.confirm-box p{font-size:14px;color:var(--text);margin-bottom:14px;}
+.confirm-row{display:flex;gap:10px;justify-content:center;}
+.confirm-yes{background:var(--red);border:none;color:var(--white);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.confirm-yes:hover{background:#f94a38;}
+.confirm-no{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.confirm-no:hover{color:var(--text);border-color:var(--text);}
 .results-empty{text-align:center;padding:32px;color:var(--muted);font-size:14px;background:var(--surface2);border-radius:14px;}
 .load-results-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s;margin-bottom:14px;}
 .load-results-btn:hover{border-color:var(--accent);color:var(--accent);}
@@ -271,6 +284,14 @@ h1 em{font-style:italic;color:var(--accent2);}
           <div class="stat-pill"><div class="stat-value" id="statTop">0%</div><div class="stat-label">Top Score</div></div>
         </div>
         <div id="resultsContainer"></div>
+        <button class="reset-btn" id="resetBtn" style="display:none;">🗑 Clear All Results</button>
+        <div class="confirm-box" id="confirmBox">
+          <p>Are you sure you want to delete <strong>all</strong> student results? This cannot be undone.</p>
+          <div class="confirm-row">
+            <button class="confirm-yes" id="confirmYes">Yes, Delete All</button>
+            <button class="confirm-no" id="confirmNo">Cancel</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -289,6 +310,7 @@ h1 em{font-style:italic;color:var(--accent2);}
   <span class="name-label">Your Name</span>
   <input type="text" class="name-input" id="studentName" placeholder="Enter your name before starting…">
 </div>
+<div class="name-error" id="nameError">Please enter your name before starting.</div>
 
 <div class="filter-bar" id="filterBar"></div>
 
@@ -379,7 +401,11 @@ async function loadSettings(){
     if(data.enabledTopics && data.enabledTopics.length) enabledTopics = data.enabledTopics;
   }catch(e){}
   renderFilterBar();
-  initQuiz();
+  document.getElementById('quiz-area').innerHTML='<div class="q-card" style="text-align:center;padding:40px;color:var(--muted);font-size:15px;">Enter your name above, then select a topic to begin.</div>';
+  document.querySelector('.score-bar').style.display='none';
+  document.querySelector('.progress-dots').style.display='none';
+  document.querySelector('.nav-row').style.display='none';
+  document.getElementById('progressLabel').style.display='none';
 }
 
 // ── Save settings to Google Sheet ──
@@ -450,7 +476,21 @@ function getPool(){
   return ALL_QUESTIONS.filter(q=>q.topic==selectedTopic);
 }
 
+function checkName(){
+  const name = document.getElementById('studentName').value.trim();
+  if(!name){
+    document.getElementById('studentName').classList.add('error');
+    document.getElementById('nameError').style.display='block';
+    document.getElementById('studentName').focus();
+    return false;
+  }
+  document.getElementById('studentName').classList.remove('error');
+  document.getElementById('nameError').style.display='none';
+  return true;
+}
+
 function initQuiz(){
+  if(!checkName()) return;
   const pool = getPool();
   if(!pool.length){
     document.getElementById('quiz-area').innerHTML='<div class="q-card" style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">No questions are available for this topic right now.</div>';
@@ -569,6 +609,7 @@ function loadResults(){
     if(!rows||!rows.length){
       document.getElementById('resultsContainer').innerHTML='<div class="results-empty">No results yet. Results will appear here once students complete the quiz.</div>';
       document.getElementById('resultsStats').style.display='none';
+      document.getElementById('resetBtn').style.display='none';
       return;
     }
     const sorted=[...rows].sort((a,b)=>parseFloat(b.Percent||0)-parseFloat(a.Percent||0));
@@ -578,6 +619,8 @@ function loadResults(){
     document.getElementById('statAvg').textContent=avg+'%';
     document.getElementById('statTop').textContent=top+'%';
     document.getElementById('resultsStats').style.display='flex';
+    document.getElementById('resetBtn').style.display='block';
+    document.getElementById('confirmBox').style.display='none';
     const medals=['🥇','🥈','🥉'];
     const barColours=['#f7c94f','#b0b8cc','#cd7f32'];
     let html='<div class="results-grid">';
@@ -585,8 +628,10 @@ function loadResults(){
       const pct=parseFloat(r.Percent)||0;
       const rank=i<3?medals[i]:'#'+(i+1);
       const barColor=i<3?barColours[i]:'var(--accent)';
+      const ts=encodeURIComponent(r.Timestamp||'');
+      const nm=encodeURIComponent(r.Name||'');
       html+=
-        '<div class="result-card">'+
+        '<div class="result-card" id="rc-'+i+'">'+
         '<div class="result-rank">'+rank+'</div>'+
         '<div class="result-info">'+
           '<div class="result-name">'+(r.Name||'Anonymous')+'</div>'+
@@ -597,6 +642,7 @@ function loadResults(){
           '<div class="result-pct">'+Math.round(pct)+'%</div>'+
           '<div class="result-fraction">'+(r.Score||0)+' / '+(r.Total||0)+'</div>'+
         '</div>'+
+        '<button class="delete-btn" title="Delete this entry" onclick="deleteEntry(\''+ts+'\',\''+nm+'\','+i+')">✕</button>'+
         '</div>';
     });
     html+='</div>';
@@ -607,6 +653,51 @@ function loadResults(){
     btn.disabled=false;
     document.getElementById('resultsContainer').innerHTML='<div class="results-empty">Could not load results. Check your internet connection and try again.</div>';
   });
+}
+
+function deleteEntry(ts, nm, idx){
+  const card=document.getElementById('rc-'+idx);
+  if(card){ card.style.opacity='0.4'; card.style.pointerEvents='none'; }
+  fetch(SHEET_URL,{
+    method:'POST',
+    mode:'no-cors',
+    body:JSON.stringify({type:'delete',timestamp:decodeURIComponent(ts),name:decodeURIComponent(nm)}),
+    headers:{'Content-Type':'application/json'}
+  })
+  .then(()=>{ if(card) card.remove(); refreshStats(); })
+  .catch(()=>{ if(card){ card.style.opacity='1'; card.style.pointerEvents='auto'; } });
+}
+
+function refreshStats(){
+  const cards=document.querySelectorAll('.result-card');
+  if(!cards.length){
+    document.getElementById('resultsContainer').innerHTML='<div class="results-empty">No results yet.</div>';
+    document.getElementById('resultsStats').style.display='none';
+    document.getElementById('resetBtn').style.display='none';
+    return;
+  }
+  document.getElementById('statTotal').textContent=cards.length;
+}
+
+function resetAll(){
+  const btn=document.getElementById('confirmYes');
+  btn.textContent='Deleting…';
+  btn.disabled=true;
+  fetch(SHEET_URL,{
+    method:'POST',
+    mode:'no-cors',
+    body:JSON.stringify({type:'reset'}),
+    headers:{'Content-Type':'application/json'}
+  })
+  .then(()=>{
+    document.getElementById('resultsContainer').innerHTML='<div class="results-empty">All results have been cleared.</div>';
+    document.getElementById('resultsStats').style.display='none';
+    document.getElementById('resetBtn').style.display='none';
+    document.getElementById('confirmBox').style.display='none';
+    btn.textContent='Yes, Delete All';
+    btn.disabled=false;
+  })
+  .catch(()=>{ btn.textContent='Yes, Delete All'; btn.disabled=false; });
 }
 
 // ── Admin unlock ──
@@ -655,15 +746,30 @@ document.getElementById('saveTopicsBtn').addEventListener('click',()=>{
 });
 
 document.getElementById('loadResultsBtn').addEventListener('click',loadResults);
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  document.getElementById('confirmBox').style.display='block';
+});
+document.getElementById('confirmYes').addEventListener('click',resetAll);
+document.getElementById('confirmNo').addEventListener('click',()=>{
+  document.getElementById('confirmBox').style.display='none';
+});
 document.getElementById('nextBtn').addEventListener('click',()=>{currentIdx++;if(currentIdx>=questions.length)showSummary();else renderQuestion();});
-document.getElementById('shuffleBtn').addEventListener('click',initQuiz);
+document.getElementById('shuffleBtn').addEventListener('click',()=>{if(checkName())initQuiz();});
 document.getElementById('restartBtn').addEventListener('click',()=>{document.getElementById('progressLabel').style.display='block';initQuiz();});
 document.getElementById('filterBar').addEventListener('click',e=>{
   const btn=e.target.closest('.filter-btn');
   if(!btn||btn.classList.contains('disabled-topic'))return;
+  if(!checkName())return;
   selectedTopic=btn.dataset.topic;
   renderFilterBar();
   initQuiz();
+});
+
+document.getElementById('studentName').addEventListener('input',()=>{
+  if(document.getElementById('studentName').value.trim()){
+    document.getElementById('studentName').classList.remove('error');
+    document.getElementById('nameError').style.display='none';
+  }
 });
 
 // ── Boot ──
