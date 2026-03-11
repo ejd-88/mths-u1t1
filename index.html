@@ -131,11 +131,32 @@
     text-transform: uppercase;
   }
 
-  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn:hover:not(.disabled-topic) { border-color: var(--accent); color: var(--accent); }
   .filter-btn.active {
     background: var(--accent);
     border-color: var(--accent);
     color: var(--white);
+  }
+
+  .filter-btn.disabled-topic {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    pointer-events: none;
+  }
+
+  .topic-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    background: rgba(122,131,154,0.2);
+    color: var(--muted);
+    padding: 2px 7px;
+    border-radius: 100px;
+    margin-left: 6px;
+    vertical-align: middle;
+    text-decoration: none;
   }
 
   /* Score display */
@@ -472,17 +493,17 @@
 <header>
   <div class="school-tag">St Patrick's College · Shorncliffe</div>
   <h1>Mathematical Methods<br><em>Unit 1 Quiz</em></h1>
-  <p class="subtitle">Test your knowledge across all five topics</p>
+  <p class="subtitle">FIA2 revision — Topics 2, 3 & 4</p>
 </header>
 
 <!-- Topic filter -->
 <div class="filter-bar" id="filterBar">
-  <button class="filter-btn active" data-topic="all">All Topics</button>
-  <button class="filter-btn" data-topic="1">T1: Surds & Quadratics</button>
+  <button class="filter-btn active" data-topic="all">Assessment Topics</button>
+  <button class="filter-btn disabled-topic" data-topic="1" title="Not assessed in FIA2">T1: Surds & Quadratics <span class="topic-badge">not assessed</span></button>
   <button class="filter-btn" data-topic="2">T2: Binomials & Cubics</button>
   <button class="filter-btn" data-topic="3">T3: Functions & Relations</button>
   <button class="filter-btn" data-topic="4">T4: Trigonometry</button>
-  <button class="filter-btn" data-topic="5">T5: Probability</button>
+  <button class="filter-btn disabled-topic" data-topic="5" title="Not assessed in FIA2">T5: Probability <span class="topic-badge">not assessed</span></button>
 </div>
 
 <!-- Score bar -->
@@ -770,8 +791,15 @@ let answered = [];
 let selectedTopic = 'all';
 const QS_PER_ROUND = 10;
 
+const ASSESSED_TOPICS = [2, 3, 4];
+
 function getFilteredQuestions() {
-  let pool = selectedTopic === 'all' ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.topic == selectedTopic);
+  let pool;
+  if (selectedTopic === 'all') {
+    pool = ALL_QUESTIONS.filter(q => ASSESSED_TOPICS.includes(q.topic));
+  } else {
+    pool = ALL_QUESTIONS.filter(q => q.topic == selectedTopic);
+  }
   return shuffle(pool).slice(0, QS_PER_ROUND).map(shuffleOptions);
 }
 
@@ -917,10 +945,11 @@ document.getElementById('restartBtn').addEventListener('click', () => {
 });
 
 document.getElementById('filterBar').addEventListener('click', e => {
-  if (!e.target.classList.contains('filter-btn')) return;
+  const btn = e.target.closest('.filter-btn');
+  if (!btn || btn.classList.contains('disabled-topic')) return;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  e.target.classList.add('active');
-  selectedTopic = e.target.dataset.topic;
+  btn.classList.add('active');
+  selectedTopic = btn.dataset.topic;
   initQuiz();
 });
 
